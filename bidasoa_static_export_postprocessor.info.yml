@@ -1,0 +1,8 @@
+name: Bidasoa Static Export Postprocessor
+type: module
+description: 'Postprocessor service'
+package: Bidasoa
+core_version_requirement: ^9.1 | ^10
+dependencies:
+  - static_suite:static_export
+

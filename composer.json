@@ -1,0 +1,8 @@
+{
+    "name": "biko2/bidasoa_static_export_postprocessor",
+    "description": "Bidasoa Export Postprocessor",
+    "require": {
+        "php": ">=8.1"
+    },
+    "type": "drupal-module"
+}

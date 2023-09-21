@@ -1,0 +1,44 @@
+services:
+  bidasoa.json.encoder:
+    class: Drupal\bidasoa_static_export_postprocessor\Services\BidasoaJsonEncoderService
+    arguments: [ '@config.factory']
+  bidasoa.static_export.postprocessor.event_subscriber:
+    class: Drupal\bidasoa_static_export_postprocessor\EventSubscriber\BidasoaStaticExportFormatter
+    tags:
+      - { name: event_subscriber }
+    arguments:
+      - "@bidasoa.static_export.postprocessor"
+  bidasoa.static_export.postprocessor:
+    class: Drupal\bidasoa_static_export_postprocessor\Services\PostprocessorService
+    tags:
+      - { name: service_collector, tag: static_export_postproccesor, call: addPostprocessor }
+  bidasoa.static_export.postprocessor.clearNull:
+    class: Drupal\bidasoa_static_export_postprocessor\Services\ClearNullExportPostprocessor
+    arguments: [ '@bidasoa.json.encoder']
+    tags:
+      - { name: static_export_postproccesor, priority: -10 }
+  bidasoa.static_export.postprocessor.homeUrl:
+    class: Drupal\bidasoa_static_export_postprocessor\Services\HomeUrlExportPostprocessor
+    arguments: [ '@config.factory', '@language_manager','@bidasoa.json.encoder' ]
+    tags:
+      - { name: static_export_postproccesor, priority: 10 }
+  bidasoa.static_export.postprocessor.previewEnforceUrl:
+    class: Drupal\bidasoa_static_export_postprocessor\Services\PreviewUrlEnforcerPostProcessor
+    arguments: [ '@bidasoa.json.encoder' ]
+    tags:
+      - { name: static_export_postproccesor, priority: -10 }
+  bidasoa.static_export.postprocessor.url:
+    class: Drupal\bidasoa_static_export_postprocessor\Services\ExportUrlPostprocessor
+    arguments: [ '@config.factory', '@language_manager','@bidasoa.json.encoder' ]
+    tags:
+      - { name: static_export_postproccesor, priority: 10 }
+  bidasoa.static_export.postprocessor.menuDoubleAttributeFix:
+    class: Drupal\bidasoa_static_export_postprocessor\Services\MenuDobleAttributeFixPostprocessor
+    arguments: [ '@config.factory', '@bidasoa.json.encoder' ]
+    tags:
+      - { name: static_export_postproccesor, priority: 11 }
+  bidasoa.static_export.postprocessor.translatableConfigPages:
+    class: Drupal\bidasoa_static_export_postprocessor\Services\TranslatableConfigPageslExportPostprocessor
+    arguments: [ '@config.factory', '@language_manager','@bidasoa.json.encoder' ]
+    tags:
+      - { name: static_export_postproccesor, priority: 10 }
