@@ -9,11 +9,10 @@ use Drupal\static_export\Exporter\ExporterPluginInterface;
 class ExportUrlPostprocessor implements StaticExportPostprocessorInterface {
   public function postprocess(string $data, array $options) : string{
     $decodedData = json_decode($data, true);
-    $domain = $decodedData['data']['content']['domain'] ?? 'mcp';
     return $this->formatDomain(
       $data,
       Settings::get('bidasoa_cms_url'),
-      Settings::get('bidasoa_front_url_' . $domain)
+      Settings::get('bidasoa_front_url')
     );
   }
   private function formatDomain(string $data, string $domainBackend, string $domainFrontend){
